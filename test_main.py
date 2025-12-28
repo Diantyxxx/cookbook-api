@@ -1,14 +1,20 @@
 import asyncio
 
 from fastapi.testclient import TestClient
+from sqlalchemy.ext.asyncio import create_async_engine
 
-from database import Base, engine
+from database import Base
 from main import app
 
 
 async def setup_database():
-    async with engine.begin() as conn:
+    """Создает таблицы во временной БД в памяти"""
+    temp_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
+
+    async with temp_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+
+    await temp_engine.dispose()
 
 
 asyncio.run(setup_database())
