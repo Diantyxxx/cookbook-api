@@ -1,6 +1,5 @@
-from sqlalchemy.orm import Mapped, mapped_column
-
 from database import Base
+from sqlalchemy.orm import Mapped, mapped_column
 
 
 class Recipe(Base):
@@ -14,4 +13,8 @@ class Recipe(Base):
     views: Mapped[int] = mapped_column(default=0)
 
     def __repr__(self) -> str:
-        return f"Recipe(id={self.recipe_id}, title={self.title}, cooking time={self.cooking_time})"
+        return (
+            f"Recipe(id={self.recipe_id}, "
+            f"title={self.title}, "
+            f"cooking time={self.cooking_time})"
+        )
