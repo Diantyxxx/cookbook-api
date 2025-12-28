@@ -9,12 +9,12 @@ from main import app
 
 async def setup_database():
     """Создает таблицы во временной БД в памяти"""
-    temp_engine = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
+    temp = create_async_engine("sqlite+aiosqlite:///:memory:", echo=False)
 
-    async with temp_engine.begin() as conn:
+    async with temp.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
-    await temp_engine.dispose()
+    await temp.dispose()
 
 
 asyncio.run(setup_database())
