@@ -1,13 +1,14 @@
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, List
 
-import models
-import schemas
-from database import engine, get_db
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy import asc, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
+
+import models
+import schemas
+from database import engine, get_db
 
 
 @asynccontextmanager
