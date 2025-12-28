@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-
 from main import app
 
 client = TestClient(app)
@@ -160,21 +159,23 @@ def test_sorting_order():
         assert "ingredients" not in recipe
         assert "description" not in recipe
 
-    recipes_list_time_without_views = []
+    recipes_list_wout_views = []
     recipes_list_views = []
     for recipe in recipes_list:
         if recipe["views"] == 0:
-            recipes_list_time_without_views.append(recipe["cooking_time"])
+            recipes_list_wout_views.append(recipe["cooking_time"])
         else:
             recipes_list_views.append(recipe["views"])
 
-    assert recipes_list_views == sorted(
-        recipes_list_views, reverse=True
-    ), f"Просмотры должны быть отсортированы по убыванию. Получено: {recipes_list_views}"
+    assert recipes_list_views == sorted(recipes_list_views, reverse=True), (
+        f"Просмотры должны быть отсортированы по убыванию. "
+        f"Получено: {recipes_list_views}"
+    )
 
-    assert recipes_list_time_without_views == sorted(
-        recipes_list_time_without_views
-    ), f"Время приготовления при 0 просмотрах должно быть отсортировано по возрастанию. Получено: {recipes_list_time_without_views}"
+    assert recipes_list_wout_views == sorted(recipes_list_wout_views), (
+        f"Время приготовления при 0 просмотрах должно быть отсортировано "
+        f"по возрастанию. Получено: {recipes_list_wout_views}"
+    )
 
 
 def test_recipe_detail_contains_all_fields():
