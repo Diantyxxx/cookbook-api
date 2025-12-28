@@ -1,13 +1,13 @@
 from contextlib import asynccontextmanager
-from typing import List, AsyncGenerator
-from fastapi import FastAPI, Depends, HTTPException, status
-from sqlalchemy.future import select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import desc, asc
+from typing import AsyncGenerator, List
 
 import models
 import schemas
 from database import engine, get_db
+from fastapi import Depends, FastAPI, HTTPException, status
+from sqlalchemy import asc, desc
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 
 @asynccontextmanager
@@ -44,7 +44,7 @@ app = FastAPI(
     response_description="Созданный рецепт",
 )
 async def create_recipe(
-    recipe: schemas.RecipeIn, db: AsyncSession = Depends(get_db)
+    recipe: schemas.RecipeIn, db: AsyncSession = Depends(get_db)  # noqa: B008
 ) -> schemas.RecipeOut:
     """
     Создает новый рецепт.
@@ -77,20 +77,24 @@ async def create_recipe(
     "/recipes/",
     response_model=List[schemas.RecipeOut],
     summary="Получить список всех рецептов",
-    description="""Возвращает список всех рецептов, отсортированных по популярности.
+    description="""Возвращает список всех рецептов,
+    отсортированных по популярности.
     Сортировка:
     1. По количеству просмотров (по убыванию)
     2. По времени приготовления (по возрастанию)
     """,
     response_description="Список рецептов с основной информацией",
 )
-async def get_recipes(db: AsyncSession = Depends(get_db)) -> List[schemas.RecipeOut]:
+async def get_recipes(
+    db: AsyncSession = Depends(get_db),  # noqa: B008
+) -> List[schemas.RecipeOut]:
     """
     Получает список всех рецептов.
 
     Возвращает:
     - Список рецептов, отсортированный по популярности и времени приготовления
-    - Каждый рецепт содержит: ID, название, время приготовления, количество просмотров
+    - Каждый рецепт содержит:
+      ID, название, время приготовления, количество просмотров
 
     Исключения:
     - HTTP 500: При внутренней ошибке сервера
@@ -114,7 +118,7 @@ async def get_recipes(db: AsyncSession = Depends(get_db)) -> List[schemas.Recipe
     response_description="Детальная информация о рецепте",
 )
 async def get_recipe(
-    recipe_id: int, db: AsyncSession = Depends(get_db)
+    recipe_id: int, db: AsyncSession = Depends(get_db)  # noqa: B008
 ) -> schemas.RecipeDetailOut:
     """
     Получает детальную информацию о рецепте по его ID.
@@ -152,7 +156,9 @@ async def get_recipe(
 
 
 @app.get(
-    "/", summary="Информация о API", description="Основная информация о Cookbook API"
+    path="/",
+    summary="Информация о API",
+    description="Основная информация о Cookbook API",
 )
 async def root():
     """
