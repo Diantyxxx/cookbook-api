@@ -1,5 +1,9 @@
 # Cookbook API
 
+![CI](https://github.com/Diantyxxx/cookbook-api/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/python-3.12-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104.1-green.svg)
+
 FastAPI приложение для управления кулинарной книгой.
 
 ## Технологии
