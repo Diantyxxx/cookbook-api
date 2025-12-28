@@ -1,7 +1,16 @@
+import asyncio
 from fastapi.testclient import TestClient
 
+from database import Base, engine
 from main import app
 
+
+async def setup_database():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+
+
+asyncio.run(setup_database())
 client = TestClient(app)
 
 
