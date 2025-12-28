@@ -40,3 +40,18 @@ jobs:
     - name: Run tests with pytest
       run: |
         pytest -v --tb=short
+        
+    - name: Security check with bandit
+      run: |
+        bandit -r . -ll
+    
+    - name: Check code complexity with radon
+      run: |
+        echo "Cyclomatic Complexity:"
+        radon cc . -a -s -nb
+        echo -e "\nMaintainability Index:"
+        radon mi . -s -nb
+    
+    - name: Test coverage with pytest-cov
+      run: |
+        pytest --cov=. --cov-report=xml --cov-report=term-missing
